@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Post;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,53 +31,5 @@ Route::get('/about', function () {
 });
 
 
-Route::get('/posts', function () {
-    $blog_posts = [
-        [
-            "title" => "Judul Post Pertama",
-            "slug" => "judul-post-pertama",
-            "author" => "Salman Faishal",
-            "body" => "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vitae animi hic itaque repudiandae similique illum eum, necessitatibus sapiente iusto atque, officiis veniam cupiditate quas veritatis facere minus laborum reprehenderit odio!"
-        ],
-        [
-            "title" => "Judul Post Kedua",
-            "slug" => "judul-post-kedua",
-            "author" => "Jason Ranti",
-            "body" => "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vitae animi hic itaque repudiandae similique illum eum, necessitatibus sapiente iusto atque, officiis veniam cupiditate quas veritatis facere minus laborum reprehenderit odio! asdawdasdwa sdwadasd wasdwasd"
-        ]
-        ];
-    return view('posts',[
-        "title" => "Posts",
-        "posts" => $blog_posts
-    ]);
-});
-
-//halaman single post
-Route::get('posts/{slug}', function($slug){
-    $blog_posts = [
-        [
-            "title" => "Judul Post Pertama",
-            "slug" => "judul-post-pertama",
-            "author" => "Salman Faishal",
-            "body" => "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vitae animi hic itaque repudiandae similique illum eum, necessitatibus sapiente iusto atque, officiis veniam cupiditate quas veritatis facere minus laborum reprehenderit odio!"
-        ],
-        [
-            "title" => "Judul Post Kedua",
-            "slug" => "judul-post-kedua",
-            "author" => "Jason Ranti",
-            "body" => "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vitae animi hic itaque repudiandae similique illum eum, necessitatibus sapiente iusto atque, officiis veniam cupiditate quas veritatis facere minus laborum reprehenderit odio! asdawdasdwa sdwadasd wasdwasd"
-        ]
-        ];
-
-    $new_post = [];    
-    foreach($blog_posts as $post){
-        if($post["slug"] === $slug){
-            $new_post = $post;
-
-        }
-    }
-    return view('post', [
-        "title" => "Single Post",
-        "post" => $new_post
-    ]);
-});
+Route::get('/posts', [PostController::class, 'index']);
+Route::get('posts/{slug}', [PostController::class, 'show']);
